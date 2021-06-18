@@ -1,3 +1,4 @@
+const { update } = require("../../series/models/tvSeries");
 const Movie = require("../models/movies");
 
 class Controller {
@@ -28,6 +29,7 @@ class Controller {
       popularity: req.body.popularity,
       tags: req.body.tags,
     };
+    // console.log(req.body);
     Movie.create(newMovie)
       .then((data) => {
         res.status(201).json(data);
@@ -70,7 +72,6 @@ class Controller {
   }
   static editMovie(req, res, next) {
     let id = req.params.id;
-    console.log(id, "edit movie id");
     const updatedMovie = {
       title: req.body.title,
       overview: req.body.overview,
@@ -78,9 +79,10 @@ class Controller {
       popularity: req.body.popularity,
       tags: req.body.tags,
     };
+    // console.log(updatedMovie, "<<<");
     Movie.update(id, updatedMovie)
       .then((data) => {
-        res.status(200).json(data);
+        return res.status(200).json(data);
       })
       .catch((err) => {
         console.log(err);

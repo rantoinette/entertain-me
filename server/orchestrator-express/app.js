@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(movies);
+app.use(series);
 
 app.listen(port, () => {
   console.log(`orchestrator running on port: ${port}`);
