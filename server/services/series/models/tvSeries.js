@@ -1,33 +1,33 @@
 const { getDatabase } = require("../config/mongodb");
 const { ObjectId } = require("mongodb");
-const collectionMovie = "Series";
+const collectionSeries = "Series";
 
 class Series {
   static findAll() {
-    return getDatabase().collection(collectionMovie).find().toArray();
+    return getDatabase().collection(collectionSeries).find().toArray();
   }
   static findById(id) {
     return getDatabase()
-      .collection(collectionMovie)
+      .collection(collectionSeries)
       .find({ _id: ObjectId(id) })
       .toArray();
   }
   static create(payload) {
-    return getDatabase().collection(collectionMovie).insertOne(payload);
+    return getDatabase().collection(collectionSeries).insertOne(payload);
   }
   static createMany(payload) {
-    return getDatabase().collection(collectionMovie).insertMany(payload);
+    return getDatabase().collection(collectionSeries).insertMany(payload);
   }
   static update(filter, updated) {
     // console.log(filter);
     // console.log(updated);
     return getDatabase()
-      .collection(collectionMovie)
+      .collection(collectionSeries)
       .updateOne({ _id: ObjectId(filter) }, { $set: updated });
   }
   static destroy(id) {
     return getDatabase()
-      .collection(collectionMovie)
+      .collection(collectionSeries)
       .deleteOne({ _id: ObjectId(id) });
   }
 }

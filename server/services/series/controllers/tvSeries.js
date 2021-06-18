@@ -21,6 +21,7 @@ class Controller {
       });
   }
   static addSeries(req, res, next) {
+    // console.log(req.body, "req body");
     const newSeries = {
       title: req.body.title,
       overview: req.body.overview,

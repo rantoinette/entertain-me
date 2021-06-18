@@ -1,14 +1,29 @@
 const axios = require("axios");
 let url = "http://localhost:4002/series";
+const Redis = require("ioredis");
+const redis = new Redis();
 
 class Controller {
   static showAllSeries(req, res, next) {
-    axios({
-      method: "GET",
-      url,
-    })
+    let gotRedis = false;
+    redis
+      .get("series")
+      .then((data) => {
+        if (data) {
+          gotRedis = true;
+          return data;
+        } else {
+          return axios({
+            method: "GET",
+            url,
+          });
+        }
+      })
+
       .then(({ data }) => {
-        console.log(data, "data show all");
+        if (!gotRedis) {
+          redis.set("series", JSON.stringify(data));
+        }
         res.status(200).json(data);
       })
       .catch((err) => {
@@ -30,14 +45,14 @@ class Controller {
       });
   }
   static addSeries(req, res, next) {
-    console.log("INSIDE");
+    // console.log("INSIDE");
     axios({
       method: "POST",
       url: `${url}`,
     })
       .then(({ data }) => {
+        redis.del("series");
         res.status(200).json(data);
-        // console.log(data, "data");
       })
       .catch((err) => {
         console.log(err);
@@ -58,8 +73,8 @@ class Controller {
       data: updatedSeries,
     })
       .then(({ data }) => {
+        redis.del("series");
         res.status(200).json(data);
-        // console.log(data, "data");
       })
       .catch((err) => {
         console.log(err);
@@ -73,8 +88,8 @@ class Controller {
       data: id,
     })
       .then(({ data }) => {
+        redis.del("series");
         res.status(200).json(data);
-        // console.log(data, "data");
       })
       .catch((err) => {
         console.log(err);

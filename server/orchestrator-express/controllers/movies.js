@@ -1,14 +1,28 @@
 const axios = require("axios");
 let url = "http://localhost:4001/movies";
+const Redis = require("ioredis");
+const redis = new Redis();
 
 class Controller {
   static showAllMovie(req, res, next) {
-    axios({
-      method: "GET",
-      url,
-    })
+    let gotRedis = false;
+    redis
+      .get("movies")
+      .then((data) => {
+        if (data) {
+          gotRedis = true;
+          return data;
+        } else {
+          return axios({
+            method: "GET",
+            url,
+          });
+        }
+      })
       .then(({ data }) => {
-        console.log(data, "data show all");
+        if (!gotRedis) {
+          redis.set("movies", JSON.stringify(data));
+        }
         res.status(200).json(data);
       })
       .catch((err) => {
@@ -36,6 +50,7 @@ class Controller {
       url: `${url}`,
     })
       .then(({ data }) => {
+        redis.del("movies");
         res.status(200).json(data);
         // console.log(data, "data");
       })
@@ -58,6 +73,7 @@ class Controller {
       data: updatedMovie,
     })
       .then(({ data }) => {
+        redis.del("movies");
         res.status(200).json(data);
         // console.log(data, "data");
       })
@@ -73,8 +89,8 @@ class Controller {
       data: id,
     })
       .then(({ data }) => {
+        redis.del("movies");
         res.status(200).json(data);
-        // console.log(data, "data");
       })
       .catch((err) => {
         console.log(err);

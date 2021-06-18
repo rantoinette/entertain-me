@@ -1,4 +1,3 @@
-const { update } = require("../../series/models/tvSeries");
 const Movie = require("../models/movies");
 
 class Controller {

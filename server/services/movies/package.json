@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "ioredis": "^4.27.6",
     "mongodb": "^3.6.9"
   },
   "devDependencies": {

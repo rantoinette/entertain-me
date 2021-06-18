@@ -67,12 +67,35 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     movies: () => {
-      return fetch(movieUrl)
+      let gotRedis = false;
+      return redis
+        .get("movies")
+        .then((data) => {
+          if (data) {
+            gotRedis = true;
+            //   console.log(data, "data>");
+            return data;
+          } else {
+            return fetch(movieUrl);
+          }
+        })
         .then((resp) => {
-          return resp.json();
+          if (!gotRedis) {
+            return resp.json();
+          } else {
+            return JSON.parse(resp);
+          }
         })
         .then((data) => {
-          return data;
+          if (!gotRedis) {
+            redis.set("movies", JSON.stringify(data));
+            return data;
+          } else {
+            return data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
     moviesById: (_, args) => {
@@ -89,22 +112,56 @@ const resolvers = {
         });
     },
     series: () => {
-      return fetch(seriesUrl)
-        .then((resp) => {
-          return resp.json();
-        })
+      let gotRedis = false;
+      return redis
+        .get("series")
         .then((data) => {
-          return data;
+          if (data) {
+            gotRedis = true;
+            return data;
+          } else {
+            return fetch(seriesUrl);
+          }
+        })
+        .then((resp) => {
+          if (!gotRedis) {
+            redis.set("series", JSON.stringify(resp));
+            return resp.json();
+          } else {
+            return JSON.parse(resp);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
     seriesById: (_, args) => {
-      return fetch(`${seriesUrl}/` + args.id)
+      let gotRedis = false;
+      return redis
+        .get("series")
+        .then((data) => {
+          if (data) {
+            gotRedis = true;
+            //   console.log(data, "data>");
+            return data;
+          } else {
+            return fetch(seriesUrl);
+          }
+        })
         .then((resp) => {
-          //   console.log(resp.json());
-          return resp.json();
+          if (!gotRedis) {
+            return resp.json();
+          } else {
+            return JSON.parse(resp);
+          }
         })
         .then((data) => {
-          return data;
+          if (!gotRedis) {
+            redis.set("series", JSON.stringify(data));
+            return data;
+          } else {
+            return data;
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -133,6 +190,9 @@ const resolvers = {
         })
         .then((data) => {
           return data;
+        })
+        .finally(() => {
+          redis.del("movies");
         });
     },
     updateMovies: (_, args) => {
@@ -150,6 +210,8 @@ const resolvers = {
         headers: {
           "Content-Type": "application/json",
         },
+      }).finally((data) => {
+        redis.del("movies");
       });
     },
     deleteMovies: (_, args) => {
@@ -158,6 +220,8 @@ const resolvers = {
         headers: {
           "Content-Type": "application/json",
         },
+      }).finally((data) => {
+        redis.del("movies");
       });
     },
     createSeries: (_, args) => {
@@ -181,6 +245,9 @@ const resolvers = {
         })
         .then((data) => {
           return data;
+        })
+        .finally(() => {
+          redis.del("movies");
         });
     },
     updateSeries: (_, args) => {
@@ -198,6 +265,8 @@ const resolvers = {
         headers: {
           "Content-Type": "application/json",
         },
+      }).finally(() => {
+        redis.del("movies");
       });
     },
     deleteSeries: (_, args) => {
@@ -206,6 +275,8 @@ const resolvers = {
         headers: {
           "Content-Type": "application/json",
         },
+      }).finally(() => {
+        redis.del("movies");
       });
     },
   },
