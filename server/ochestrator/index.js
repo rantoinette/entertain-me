@@ -1,5 +1,7 @@
 const { ApolloServer, gql, ApolloError } = require("apollo-server");
 const fetch = require("node-fetch");
+const Redis = require("ioredis");
+const redis = new Redis();
 let movieUrl = "http://localhost:4001/movies";
 let seriesUrl = "http://localhost:4002/series";
 
@@ -12,9 +14,19 @@ const typeDefs = gql`
     popularity: Float
     tags: [String]
   }
+  type Series {
+    _id: ID
+    title: String
+    overview: String
+    poster_path: String
+    popularity: Float
+    tags: [String]
+  }
   type Query {
     movies: [Movie]
     moviesById(id: ID): Movie
+    series: [Series]
+    seriesById(id: ID): Series
   }
   type Mutation {
     createMovies(
@@ -33,28 +45,13 @@ const typeDefs = gql`
       tags: [String]
     ): Movie
     deleteMovies(_id: ID): Movie
-  }
-
-  type Series {
-    _id: ID
-    title: String
-    overview: String
-    poster_path: String
-    popularity: Float
-    tags: [String]
-  }
-  type Query {
-    series: [Series]
-    seriesById(id: ID): Series
-  }
-  type Mutation {
     createSeries(
       title: String
       overview: String
       poster_path: String
       popularity: Float
       tags: [String]
-    ): Series
+    ): Movie
     updateSeries(
       _id: ID
       title: String
@@ -62,8 +59,8 @@ const typeDefs = gql`
       poster_path: String
       popularity: Float
       tags: [String]
-    ): Series
-    deleteSeries(_id: ID): Series
+    ): Movie
+    deleteSeries(_id: ID): Movie
   }
 `;
 
