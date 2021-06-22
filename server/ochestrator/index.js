@@ -6,6 +6,14 @@ let movieUrl = "http://localhost:4001/movies";
 let seriesUrl = "http://localhost:4002/series";
 
 const typeDefs = gql`
+  input MovieInput {
+    _id: ID
+    title: String
+    overview: String
+    poster_path: String
+    popularity: Float
+    tags: [String]
+  }
   type Movie {
     _id: ID
     title: String
@@ -29,21 +37,8 @@ const typeDefs = gql`
     seriesById(id: ID): Series
   }
   type Mutation {
-    createMovies(
-      title: String
-      overview: String
-      poster_path: String
-      popularity: Float
-      tags: [String]
-    ): Movie
-    updateMovies(
-      _id: ID
-      title: String
-      overview: String
-      poster_path: String
-      popularity: Float
-      tags: [String]
-    ): Movie
+    createMovies(movie: MovieInput): Movie
+    updateMovies(movie: MovieInput): Movie
     deleteMovies(_id: ID): Movie
     createSeries(
       title: String
@@ -76,6 +71,7 @@ const resolvers = {
             //   console.log(data, "data>");
             return data;
           } else {
+            // console.log("In fetch");
             return fetch(movieUrl);
           }
         })
@@ -89,6 +85,7 @@ const resolvers = {
         .then((data) => {
           if (!gotRedis) {
             redis.set("movies", JSON.stringify(data));
+            // console.log(data, "data");
             return data;
           } else {
             return data;
@@ -170,12 +167,13 @@ const resolvers = {
   },
   Mutation: {
     createMovies: (_, args) => {
+      // console.log(args, "args");
       const data = {
-        title: args.title,
-        overview: args.overview,
-        poster_path: args.poster_path,
-        popularity: args.popularity,
-        tags: args.tags,
+        title: args.movie.title,
+        overview: args.movie.overview,
+        poster_path: args.movie.poster_path,
+        popularity: args.movie.popularity,
+        tags: args.movie.tags,
       };
 
       return fetch(movieUrl, {
@@ -196,15 +194,16 @@ const resolvers = {
         });
     },
     updateMovies: (_, args) => {
+      console.log(args, "args in updated movies");
       const data = {
-        title: args.title,
-        overview: args.overview,
-        poster_path: args.poster_path,
-        popularity: args.popularity,
-        tags: args.tags,
+        title: args.movie.title,
+        overview: args.movie.overview,
+        poster_path: args.movie.poster_path,
+        popularity: args.movie.popularity,
+        tags: args.movie.tags,
       };
 
-      return fetch(`${movieUrl}/${args._id}`, {
+      return fetch(`${movieUrl}/${args.movie._id}`, {
         method: "PUT",
         body: JSON.stringify(data),
         headers: {
@@ -215,6 +214,7 @@ const resolvers = {
       });
     },
     deleteMovies: (_, args) => {
+      // console.log(args, "args in delete");
       return fetch(`${movieUrl}/${args._id}`, {
         method: "DELETE",
         headers: {
