@@ -13,6 +13,19 @@ export const GET_MOVIES = gql`
   }
 `;
 
+export const GET_SERIES = gql`
+  query GetSeries {
+    series {
+      _id
+      title
+      overview
+      poster_path
+      popularity
+      tags
+    }
+  }
+`;
+
 export const GET_MOVIE_BY_ID = gql`
   query GetMovieById($type: ID) {
     moviesById(id: $type) {

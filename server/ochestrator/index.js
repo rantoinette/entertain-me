@@ -122,10 +122,18 @@ const resolvers = {
         })
         .then((resp) => {
           if (!gotRedis) {
-            redis.set("series", JSON.stringify(resp));
             return resp.json();
           } else {
             return JSON.parse(resp);
+          }
+        })
+        .then((data) => {
+          if (!gotRedis) {
+            redis.set("series", JSON.stringify(data));
+            // console.log(data, "data");
+            return data;
+          } else {
+            return data;
           }
         })
         .catch((err) => {

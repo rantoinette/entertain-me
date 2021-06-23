@@ -31,6 +31,11 @@ export default function Navbar() {
                   Add Movies
                 </Link>
               </li>
+              <li class="nav-item">
+                <Link to="/favourite" class="nav-link">
+                  Favourite
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
