@@ -1,6 +1,6 @@
 const { getDatabase } = require("../config/mongodb");
 const { ObjectId } = require("mongodb");
-const collectionMovie = "Movie"; //to make the table
+const collectionMovie = "movies"; //to make the table
 
 class Movie {
   static findAll() {

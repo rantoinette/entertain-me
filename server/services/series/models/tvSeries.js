@@ -1,6 +1,6 @@
 const { getDatabase } = require("../config/mongodb");
 const { ObjectId } = require("mongodb");
-const collectionSeries = "Series";
+const collectionSeries = "series";
 
 class Series {
   static findAll() {

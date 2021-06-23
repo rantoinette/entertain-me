@@ -1,6 +1,7 @@
 const { MongoClient } = require("mongodb");
 
-const uri = "mongodb://localhost:27017";
+const uri =
+  "mongodb://raissa:mongodb@cluster0-shard-00-00.reqnj.mongodb.net:27017,cluster0-shard-00-01.reqnj.mongodb.net:27017,cluster0-shard-00-02.reqnj.mongodb.net:27017/entertainment?ssl=true&replicaSet=atlas-oywure-shard-0&authSource=admin&retryWrites=true&w=majority";
 
 let database = null;
 
@@ -11,7 +12,7 @@ async function connect() {
       useUnifiedTopology: true,
     });
     await client.connect();
-    const db = await client.db("movies-hacktiv8");
+    const db = await client.db("entertainment");
     // console.log("connected");
     // console.log(db, "database");
 

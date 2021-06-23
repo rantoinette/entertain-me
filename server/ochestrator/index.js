@@ -2,8 +2,10 @@ const { ApolloServer, gql, ApolloError } = require("apollo-server");
 const fetch = require("node-fetch");
 const Redis = require("ioredis");
 const redis = new Redis();
-let movieUrl = "http://localhost:4001/movies";
-let seriesUrl = "http://localhost:4002/series";
+let movieUrl = "http://3.235.85.57:4001/movies";
+let seriesUrl = "http://54.175.145.190:4002/series";
+// let movieUrl = "http://localhost:4001/movies";
+// let seriesUrl = "http://localhost:4002/series";
 
 const typeDefs = gql`
   input MovieInput {

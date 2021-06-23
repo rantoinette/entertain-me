@@ -5,7 +5,7 @@ const { connect, getDatabase } = require("./config/mongodb");
 const indexRouter = require("./routes/index");
 
 app.get("/", (req, res) => {
-  console.log("in");
+  // console.log("in");
   res.json({
     message: "Hello series server",
   });
