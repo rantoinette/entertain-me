@@ -66,7 +66,7 @@ export const EDIT_MOVIES = gql`
 export const DELETE_MOVIES = gql`
   mutation DeleteMovies($type: ID) {
     deleteMovies(_id: $type) {
-      title
+      message
     }
   }
 `;

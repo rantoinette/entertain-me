@@ -1,7 +1,7 @@
 import { favourite } from "../graph/var";
 
 export default function FavouritePage() {
-  console.log(favourite(), "FAVORITE");
+  //   console.log(favourite(), "FAVORITE");
   return (
     <>
       <div

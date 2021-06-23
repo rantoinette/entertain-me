@@ -21,7 +21,6 @@ export default function Home() {
   if (errorSeries) return `Error! ${errorSeries.message}`;
 
   function handleDeleteAction(movieId) {
-    // console.log(movieId, "movieID");
     let type = movieId;
     inputData({
       variables: { type },
@@ -44,12 +43,7 @@ export default function Home() {
       newFavourite = [...currentFavourite, movie];
       favourite(newFavourite);
     }
-
-    console.log(favourite(), "fav");
   }
-
-  console.log(dataSeries.series, "series' data");
-  // console.log(data, "not series' data");
 
   //d-flex - ke kananin/kiri
   //flex-wrap - kebawah klo widthnya udh melebihi

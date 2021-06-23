@@ -21,10 +21,14 @@ class Movie {
   static update(filter, updated) {
     // console.log(filter);
     // console.log(updated);
-    return getDatabase()
-      .collection(collectionMovie)
-      .updateOne({ _id: ObjectId(filter) }, { $set: updated });
+    return (
+      getDatabase()
+        .collection(collectionMovie)
+        // .updateOne({ _id: ObjectId(filter) }, { $set: updated });
+        .replaceOne({ _id: ObjectId(filter) }, updated)
+    );
   }
+
   static destroy(id) {
     return getDatabase()
       .collection(collectionMovie)

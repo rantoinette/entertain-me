@@ -31,6 +31,9 @@ export default function EditMovie() {
     if (name === "tags") {
       value = value.split(",");
     }
+    if (name === "popularity") {
+      value = Number(value);
+    }
 
     setMovieData({ ...movieData, [name]: value });
   }
@@ -97,6 +100,23 @@ export default function EditMovie() {
               type="text"
               className="form-control"
               id="exampleInputPassword1"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">
+              Popularity
+            </label>
+            <input
+              name="popularity"
+              value={movieData.popularity}
+              onChange={handleChange}
+              type="number"
+              step="0.1"
+              min="1"
+              max="10"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
             />
           </div>
           <div className="mb-3">

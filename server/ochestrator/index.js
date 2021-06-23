@@ -14,6 +14,9 @@ const typeDefs = gql`
     popularity: Float
     tags: [String]
   }
+  type Message {
+    message: String
+  }
   type Movie {
     _id: ID
     title: String
@@ -39,7 +42,7 @@ const typeDefs = gql`
   type Mutation {
     createMovies(movie: MovieInput): Movie
     updateMovies(movie: MovieInput): Movie
-    deleteMovies(_id: ID): Movie
+    deleteMovies(_id: ID): Message
     createSeries(
       title: String
       overview: String
@@ -86,10 +89,9 @@ const resolvers = {
           if (!gotRedis) {
             redis.set("movies", JSON.stringify(data));
             // console.log(data, "data");
-            return data;
-          } else {
-            return data;
+            // return data;
           }
+          return data;
         })
         .catch((err) => {
           console.log(err);
@@ -195,14 +197,15 @@ const resolvers = {
           return resp.json();
         })
         .then((data) => {
-          return data;
+          // console.log(data.ops[0], "data ops created movies");
+          return data.ops[0];
         })
         .finally(() => {
           redis.del("movies");
         });
     },
     updateMovies: (_, args) => {
-      console.log(args, "args in updated movies");
+      // console.log(args, "args in updated movies");
       const data = {
         title: args.movie.title,
         overview: args.movie.overview,
@@ -217,9 +220,17 @@ const resolvers = {
         headers: {
           "Content-Type": "application/json",
         },
-      }).finally((data) => {
-        redis.del("movies");
-      });
+      })
+        .then((resp) => {
+          return resp.json();
+        })
+        .then((data) => {
+          // console.log(data, "data ops update movies");
+          return data.ops[0];
+        })
+        .finally((data) => {
+          redis.del("movies");
+        });
     },
     deleteMovies: (_, args) => {
       // console.log(args, "args in delete");
@@ -255,7 +266,7 @@ const resolvers = {
           return data;
         })
         .finally(() => {
-          redis.del("movies");
+          redis.del("series");
         });
     },
     updateSeries: (_, args) => {
@@ -274,7 +285,7 @@ const resolvers = {
           "Content-Type": "application/json",
         },
       }).finally(() => {
-        redis.del("movies");
+        redis.del("series");
       });
     },
     deleteSeries: (_, args) => {
@@ -284,7 +295,7 @@ const resolvers = {
           "Content-Type": "application/json",
         },
       }).finally(() => {
-        redis.del("movies");
+        redis.del("series");
       });
     },
   },

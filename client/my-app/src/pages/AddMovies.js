@@ -40,6 +40,10 @@ export default function AddMovie() {
     if (name === "tags") {
       value = value.split(",");
     }
+    if (name === "popularity") {
+      value = Number(value);
+    }
+    console.log(value);
     setMovieData({ ...movieData, [name]: value });
   }
 
@@ -82,6 +86,22 @@ export default function AddMovie() {
               type="text"
               class="form-control"
               id="exampleInputPassword1"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">
+              Popularity
+            </label>
+            <input
+              name="popularity"
+              onChange={handleChange}
+              type="number"
+              step="0.1"
+              min="1"
+              max="10"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
             />
           </div>
           <div class="mb-3">
