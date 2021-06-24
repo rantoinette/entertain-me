@@ -19,8 +19,6 @@ class Movie {
     return getDatabase().collection(collectionMovie).insertMany(payload);
   }
   static update(filter, updated) {
-    // console.log(filter);
-    // console.log(updated);
     return (
       getDatabase()
         .collection(collectionMovie)

@@ -21,7 +21,6 @@ class Controller {
       });
   }
   static addSeries(req, res, next) {
-    // console.log(req.body, "req body");
     const newSeries = {
       title: req.body.title,
       overview: req.body.overview,
@@ -71,7 +70,6 @@ class Controller {
   }
   static editSeries(req, res, next) {
     let id = req.params.id;
-    // console.log(id, "edit Series id");
     const updatedSeries = {
       title: req.body.title,
       overview: req.body.overview,

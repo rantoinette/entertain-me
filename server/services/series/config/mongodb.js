@@ -13,8 +13,6 @@ async function connect() {
     });
     await client.connect();
     const db = await client.db("entertainment");
-    // console.log("connected");
-    // console.log(db, "database");
 
     database = db;
     return db;

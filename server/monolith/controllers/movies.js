@@ -70,7 +70,6 @@ class Controller {
   }
   static editMovie(req, res, next) {
     let id = req.params.id;
-    console.log(id, "edit movie id");
     const updatedMovie = {
       title: req.body.title,
       overview: req.body.overview,

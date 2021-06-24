@@ -28,7 +28,7 @@ class Controller {
       popularity: req.body.popularity,
       tags: req.body.tags,
     };
-    // console.log(req.body);
+
     Movie.create(newMovie)
       .then((data) => {
         res.status(201).json(data);
@@ -78,7 +78,6 @@ class Controller {
       popularity: req.body.popularity,
       tags: req.body.tags,
     };
-    // console.log(updatedMovie, "<<<");
     Movie.update(id, updatedMovie)
       .then((data) => {
         return res.status(200).json(data);

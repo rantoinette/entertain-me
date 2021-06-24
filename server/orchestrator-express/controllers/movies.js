@@ -37,14 +37,12 @@ class Controller {
     })
       .then(({ data }) => {
         res.status(200).json(data);
-        // console.log(data, "data find one");
       })
       .catch((err) => {
         console.log(err);
       });
   }
   static addMovie(req, res, next) {
-    console.log("INSIDE");
     axios({
       method: "POST",
       url: `${url}`,
@@ -52,7 +50,6 @@ class Controller {
       .then(({ data }) => {
         redis.del("movies");
         res.status(200).json(data);
-        // console.log(data, "data");
       })
       .catch((err) => {
         console.log(err);
@@ -75,7 +72,6 @@ class Controller {
       .then(({ data }) => {
         redis.del("movies");
         res.status(200).json(data);
-        // console.log(data, "data");
       })
       .catch((err) => {
         console.log(err);

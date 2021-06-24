@@ -43,7 +43,6 @@ export default function AddMovie() {
     if (name === "popularity") {
       value = Number(value);
     }
-    console.log(value);
     setMovieData({ ...movieData, [name]: value });
   }
 

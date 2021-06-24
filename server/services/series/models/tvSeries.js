@@ -19,8 +19,6 @@ class Series {
     return getDatabase().collection(collectionSeries).insertMany(payload);
   }
   static update(filter, updated) {
-    // console.log(filter);
-    // console.log(updated);
     return getDatabase()
       .collection(collectionSeries)
       .updateOne({ _id: ObjectId(filter) }, { $set: updated });

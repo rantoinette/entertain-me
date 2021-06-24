@@ -48,7 +48,6 @@ export default function EditMovie() {
       popularity: movieData.popularity,
       tags: movieData.tags,
     };
-    // console.log(input, "inputt");
     editMovie({
       variables: {
         input: input,

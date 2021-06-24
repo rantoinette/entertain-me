@@ -43,10 +43,15 @@ export default function Home() {
       newFavourite = [...currentFavourite, movie];
       favourite(newFavourite);
     }
+
+    //another way
+    // const found = favourite().find(item => item._id===id)
+    // if (!found) {
+    //   newFavourite = [...currentFavourite, movie];
+    //   favourite(newFavourite);
+    // }
   }
 
-  //d-flex - ke kananin/kiri
-  //flex-wrap - kebawah klo widthnya udh melebihi
   return (
     <>
       <h1 className="container mt-2">Movies</h1>

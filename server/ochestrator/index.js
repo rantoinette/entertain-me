@@ -73,10 +73,8 @@ const resolvers = {
         .then((data) => {
           if (data) {
             gotRedis = true;
-            //   console.log(data, "data>");
             return data;
           } else {
-            // console.log("In fetch");
             return fetch(movieUrl);
           }
         })
@@ -90,8 +88,6 @@ const resolvers = {
         .then((data) => {
           if (!gotRedis) {
             redis.set("movies", JSON.stringify(data));
-            // console.log(data, "data");
-            // return data;
           }
           return data;
         })
@@ -102,7 +98,6 @@ const resolvers = {
     moviesById: (_, args) => {
       return fetch(`${movieUrl}/` + args.id)
         .then((resp) => {
-          //   console.log(resp.json());
           return resp.json();
         })
         .then((data) => {
@@ -134,7 +129,6 @@ const resolvers = {
         .then((data) => {
           if (!gotRedis) {
             redis.set("series", JSON.stringify(data));
-            // console.log(data, "data");
             return data;
           } else {
             return data;
@@ -151,7 +145,6 @@ const resolvers = {
         .then((data) => {
           if (data) {
             gotRedis = true;
-            //   console.log(data, "data>");
             return data;
           } else {
             return fetch(seriesUrl);
@@ -179,7 +172,6 @@ const resolvers = {
   },
   Mutation: {
     createMovies: (_, args) => {
-      // console.log(args, "args");
       const data = {
         title: args.movie.title,
         overview: args.movie.overview,
@@ -199,7 +191,6 @@ const resolvers = {
           return resp.json();
         })
         .then((data) => {
-          // console.log(data.ops[0], "data ops created movies");
           return data.ops[0];
         })
         .finally(() => {
@@ -207,7 +198,6 @@ const resolvers = {
         });
     },
     updateMovies: (_, args) => {
-      // console.log(args, "args in updated movies");
       const data = {
         title: args.movie.title,
         overview: args.movie.overview,
@@ -227,7 +217,6 @@ const resolvers = {
           return resp.json();
         })
         .then((data) => {
-          // console.log(data, "data ops update movies");
           return data.ops[0];
         })
         .finally((data) => {
@@ -235,7 +224,6 @@ const resolvers = {
         });
     },
     deleteMovies: (_, args) => {
-      // console.log(args, "args in delete");
       return fetch(`${movieUrl}/${args._id}`, {
         method: "DELETE",
         headers: {

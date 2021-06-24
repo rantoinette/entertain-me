@@ -38,14 +38,12 @@ class Controller {
     })
       .then(({ data }) => {
         res.status(200).json(data);
-        // console.log(data, "data find one");
       })
       .catch((err) => {
         console.log(err);
       });
   }
   static addSeries(req, res, next) {
-    // console.log("INSIDE");
     axios({
       method: "POST",
       url: `${url}`,
